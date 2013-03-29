@@ -1,0 +1,126 @@
+<project name="juliet" basedir="." default="jar">
+
+    <property name="src.dir" value="src" />
+
+    <property name="build.dir" value="bin" />
+    <property name="lib.dir" value="lib" />
+    <property name="classes.dir" value="${build.dir}/classes" />
+
+    <property name="data.dir" value="${build.dir}/data" />
+    <property name="data.tiny" value="${data.dir}/tiny" />
+    <property name="data.small" value="${data.dir}/small" />
+    <property name="data.normal" value="${data.dir}/normal" />
+
+    <property name="sql.dir" value="${build.dir}/sql" />
+
+    <property name="jar.dir"     value="${build.dir}/jar" />
+    <property name="jar.name"    value="${jar.dir}/${ant.project.name}.jar" />
+
+    <property name="main-class"  value="juliet.Scheduler" />
+	<property name="lib.h2" value="${lib.dir}/h2-1.3.159.jar" />
+
+    <property name="lib.commons-cli" value="${lib.dir}/commons-cli-1.2.jar" />
+    <property name="lib.h2" value="${lib.dir}/h2-1.3.159.jar" />
+
+    <!-- Dependencies -->
+    <path id="deps.path">
+        <pathelement location="${lib.commons-cli}" />
+        <pathelement location="${lib.h2}" />
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+        <delete file="ReqsVsSched.csv" />
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="deps.path" />
+    </target>
+
+    <target name="jar" depends="compile,copy-libs">
+        <mkdir dir="${jar.dir}" />
+        <jar destfile="${jar.name}" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Unzip runtime deps to be included in our JAR, keep the META-INF
+	for posterity -->
+    <target name="copy-libs" depends="compile" >
+
+        <unzip src="${lib.commons-cli}" dest="${classes.dir}" />
+        <move file="${classes.dir}/META-INF"
+            tofile="${classes.dir}/META-INF-commons-cli" />
+
+        <unzip src="${lib.h2}" dest="${classes.dir}" />
+        <move file="${classes.dir}/META-INF"
+            tofile="${classes.dir}/META-INF-h2" />
+	</target>
+
+    <!-- Run main class -->
+    <target name="run" depends="jar">
+        <java jar="${jar.name}" fork="true" />
+    </target>
+
+    <target name="run-stc-test" depends="jar">
+        <java classname="juliet.test.StClementsTestData"
+			classpath="${jar.name}" fork="true">
+            <arg line="-help" />
+        </java>
+    </target>
+
+    <target name="gen-data" depends="jar">
+        <mkdir dir="${data.dir}" />
+        <java classname="juliet.test.StClementsTestData"
+			classpath="${jar.name}" fork="true">
+            <arg line="-o ${data.normal} -f -p 300" />
+        </java>
+        <java classname="juliet.test.StClementsTestData"
+			classpath="${jar.name}" fork="true">
+            <arg line="-o ${data.small} -p 100 -t 33 -f" />
+        </java>
+        <java classname="juliet.test.StClementsTestData"
+			classpath="${jar.name}" fork="true">
+            <arg line="-o ${data.tiny} -p 50 -t 16 -f -maxi 5 -mini 2" />
+        </java>
+    </target>
+
+    <target name="gen-sql" depends="jar">
+        <mkdir dir="${sql.dir}" />
+        <!-- 200 parents on day 1 beginning with id 1 -->
+        <java classname="juliet.test.StClementsTestData"
+            classpath="${jar.name}" fork="true">
+            <arg line="-o ${sql.dir}/p1-201_d1_rsid1.sql -f -p 200 -sql" />
+        </java>
+
+        <!-- 200 parents on day 2 beginning with id 201 -->
+        <java classname="juliet.test.StClementsTestData"
+            classpath="${jar.name}" fork="true">
+            <arg line="-o ${sql.dir}/p202-400_d2_rsid1.sql -f -p 198 -id 202 -sqldid 2" />
+        </java>
+    </target>
+
+    <target name="test" depends="gen-data">
+        <java jar="${jar.name}" fork="true">
+            <arg line="-i ${data.tiny} -o ${data.tiny}.out -f -a 6 -e 8" />
+        </java>
+        <java jar="${jar.name}" fork="true">
+            <arg line="-i ${data.small} -o ${data.small}.out -f -a 9 -e 11" />
+        </java>
+        <java jar="${jar.name}" fork="true">
+            <arg line="-i ${data.normal} -o ${data.normal}.out -f -a 17 -e 21" />
+        </java>
+    </target>
+
+    <target name="test-normal" depends="gen-data">
+        <java jar="${jar.name}" fork="true">
+            <arg line="-i ${data.normal} -a 17 -e 21" />
+        </java>
+    </target>
+
+    <target name="clean-build" depends="clean,jar" />
+
+</project>

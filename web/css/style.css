@@ -1,0 +1,585 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+.timetable td, 
+.timetable th {
+    border: 1px solid black;
+    font-size: 0.75em;
+    width: 7em;
+    height: 2em;
+    text-align: center;
+    vertical-align: center;
+    padding: 0.5em;
+}
+
+.timetable td {
+    border: none;
+    background: white;
+}
+
+
+#debug_log {
+    width: 80%;
+}
+#debug_log li {
+    list-style: none;
+    margin: 0.5em;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+hr {
+    border: none;
+    border-top: 3px dotted grey;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    clear: both;
+}
+
+.info_msg,
+.error_msg {
+    font-style: oblique;
+    font-size: 1.5em;
+    text-align: center;
+    margin: 0 0 1em;
+}
+
+.error_msg {
+    color: red;
+}
+
+h3 {
+    font-style: oblique;
+    font-weight: bold;
+    border-bottom: 3px dotted grey ;
+    margin-top: 1em;
+}
+
+h4 {
+	clear:both;
+}
+
+.request_check {
+    float: left;
+    width: 33%;
+    margin: 1em 0;
+    height: 2em;
+}
+
+td.teacher,
+th,
+.prev_requested label,
+#demo_requested {
+    background: #333748;
+    color: white;
+}
+
+.request_check label {
+    margin: 0.5em;
+}
+
+form .form-row {
+    margin: 1em 0;
+}
+
+hr,
+form h3,
+form .buttons,
+p.form-row,
+.form-row label,
+.form-row input,
+.form-row select,
+form .info_msg,
+form .error_msg {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+.login-form {
+    width: 50%;
+    margin-right:25%;
+    margin-left:25%;
+}
+
+.form-row label {
+    display: block;
+    margin-top: 1.5em;
+    text-align: left;
+}
+
+.form-row select {
+    font-size: 1.5em;
+    height: 1.5em;
+    margin-top: 1em;
+    text-align: center;
+}
+
+p.form-row,
+.form-row input {
+    font-size: 1.5em;
+}
+
+.bannerClass {
+    background-color: #333748;
+    height: 6em;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.banner1Class {
+    color: #FFFFFF;
+    float: left;
+    font-size: 150%;
+    margin-left: 0.5em;
+    padding: 1.5em 0 0;
+}
+.banner2Class {
+    color: #FFFFFF;
+    position: absolute;
+    font-size: 80%;
+    margin: 1em;
+    right: 1em;
+    top: 3.5em;
+}
+.nav_bar {
+    background-color: #EAD280;
+    float: left;
+    height: 2em;
+    margin-top: 1.5em;
+    padding: 0;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.nav_bar li {
+    float: left;
+    list-style: none outside none;
+    margin: 0.5em;
+    padding: 0;
+}
+#content {
+    float: left;
+    margin: 2em 10%;
+    background-color: #E9E9EB;
+    border: 1px solid #A1A3AB;
+    padding: 2em 5%;
+    align: center;
+    width: 70%;
+}
+
+/*****Below this line is mostly unouched. goal is to move it all up here ****/
+a:link {
+    color: #333748;
+    text-decoration: none;
+}
+a:visited {
+    color: #333748;
+    text-decoration: none;
+}
+a:hover {
+    color: #333748;
+    text-decoration: none;
+}
+a:active {
+    color: #333748;
+    text-decoration: none;
+}
+.javalink {
+    cursor: pointer;
+}
+.font1 {
+    color: #333748;
+    font-size: 19px;
+    font-weight: bold;
+}
+.font1a {
+    color: #FF0000;
+    font-size: 19px;
+}
+.font2 {
+    color: #333333;
+    font-size: 16px;
+}
+.font3 {
+    color: #333748;
+    font-size: 25px;
+    line-height: 32px;
+}
+.font4 {
+    color: #333748;
+    font-size: 17px;
+    line-height: 26px;
+}
+.font_preferences {
+    color: #333748;
+    font-size: 14px;
+    line-height: 26px;
+}
+.font5 {
+    color: #333748;
+    font-size: 14px;
+}
+.font5a {
+    color: #FF0000;
+    font-size: 14px;
+}
+.font6 {
+    color: #333748;
+    font-size: 20px;
+}
+.font7 {
+    color: #333748;
+    font-size: 20px;
+}
+.font8 {
+    color: #333748;
+    font-size: 11px;
+}
+#logout_text {
+    color: #FFFFFF;
+}
+.adminHomeClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    left: 50%;
+    margin-left: -175px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+    padding-top: 40px;
+    position: absolute;
+    top: 125px;
+    width: 525px;
+}
+.userTableClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    height: auto;
+    left: 50%;
+    margin-left: -390px;
+    padding-bottom: 50px;
+    position: absolute;
+    top: 205px;
+    width: 780px;
+}
+.userTableMenuClass {
+    height: 20px;
+    left: 50%;
+    margin-left: -380px;
+    position: absolute;
+    top: 175px;
+    width: 780px;
+}
+.prefBoxClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    left: 50%;
+    margin-left: -390px;
+    padding-bottom: 50px;
+    position: absolute;
+    top: 200px;
+    width: 780px;
+}
+.pref_table {
+    background-color: #E9E9EB;
+    color: #333748;
+    font-family: Arial,Helvetica,sans-serif;
+    height: 100%;
+    width: 100%;
+}
+.pref_table_header {
+    font-size: 12pt;
+    text-align: left;
+    width: 780px;
+}
+.pref_table_num {
+    font-size: 9pt;
+    text-align: left;
+    width: 10px;
+}
+.pref_table_desc {
+    font-size: 8pt;
+    text-align: left;
+    width: 260px;
+}
+.pref_table_option {
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: left;
+    width: 180px;
+}
+.pref_table_example {
+    font-size: 8pt;
+    text-align: left;
+    width: 200px;
+}
+.pref_table_value {
+    font-size: 9pt;
+    text-align: left;
+    width: 250px;
+}
+.pref_value_box {
+    font-size: 9pt;
+    text-align: left;
+    width: 250px;
+}
+.teacherBoxClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    left: 50%;
+    margin-left: -390px;
+    padding-bottom: 50px;
+    position: absolute;
+    top: 200px;
+    width: 780px;
+}
+.teacher_table {
+    background-color: #E9E9EB;
+    color: #333748;
+    height: 100%;
+    width: 100%;
+}
+.teacher_table_header {
+    font-size: 12pt;
+    text-align: left;
+    width: 780px;
+}
+.teacher_table_name {
+    font-size: 8pt;
+    text-align: left;
+    width: 150px;
+}
+.teacher_table_email {
+    font-size: 8pt;
+    text-align: left;
+    width: 150px;
+}
+.teacher_table_class {
+    font-size: 8pt;
+    text-align: left;
+    width: 100px;
+}
+.teacher_table_desc {
+    font-size: 8pt;
+    text-align: left;
+    width: 200px;
+}
+.teacher_table_option {
+    font-size: 8pt;
+    text-align: left;
+    width: 180px;
+}
+.childrenEnrolledClass {
+    left: 50%;
+    margin-left: -390px;
+    position: absolute;
+    top: 180px;
+    width: 525px;
+}
+.childClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    height: 105px;
+    left: 50%;
+    padding-top: 45px;
+    position: absolute;
+    width: 250px;
+}
+.consolidatedScheduleClass {
+    left: 50%;
+    margin-left: -380px;
+    position: absolute;
+    width: 525px;
+}
+.conSchedTableClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    height: 300px;
+    left: 50%;
+    margin-left: -390px;
+    padding-bottom: 50px;
+    position: absolute;
+    width: 780px;
+}
+.availabilityTableClass {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    height: 300px;
+    left: 50%;
+    margin-left: -390px;
+    padding-bottom: 50px;
+    position: absolute;
+    top: 215px;
+    width: 575px;
+}
+.availabilityMenuClass {
+    height: 20px;
+    left: 50%;
+    margin-left: -175px;
+    position: absolute;
+    top: 185px;
+    width: 565px;
+}
+.bookMenuClass {
+    height: 20px;
+    left: 50%;
+    margin-left: -390px;
+    position: absolute;
+    top: 190px;
+    width: 565px;
+}
+.requestedInstructorsClass {
+    height: 20px;
+    left: 50%;
+    margin-left: -380px;
+    position: absolute;
+    top: 180px;
+    width: 565px;
+}
+.overlayBackClass {
+    background-color: #000000;
+    height: 100%;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    width: 100%;
+}
+.addClass {
+    background-color: #FFFFFF;
+    height: 260px;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    padding-top: 40px;
+    position: absolute;
+    top: 50%;
+    visibility: hidden;
+    width: 500px;
+}
+.add1Class {
+    background-color: #FFFFFF;
+    height: 230px;
+    left: 50%;
+    margin-left: -275px;
+    margin-top: -150px;
+    padding-top: 80px;
+    position: absolute;
+    top: 50%;
+    visibility: hidden;
+    width: 550px;
+}
+select {
+    color: #333748;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 17px;
+    height: 22px;
+    width: 300px;
+}
+.addButton {
+    background-image: url("../images/login_button.jpg");
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    height: 35px;
+    width: 114px;
+}
+.availIndicatorClass {
+    height: 20px;
+    left: 50%;
+    margin-left: -380px;
+    position: absolute;
+    top: 190px;
+    width: 565px;
+}
+.adminSchedMain {
+    height: 300px;
+    left: 50%;
+    margin-left: -350px;
+    position: absolute;
+    top: 200px;
+    width: 700px;
+}
+.genSchedPrompt {
+    background-color: #E9E9EB;
+    border-color: #A1A3AB;
+    border-style: solid;
+    border-width: 1px;
+    height: 100px;
+    left: 50%;
+    margin-left: -350px;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    position: absolute;
+    top: 200px;
+    width: 700px;
+}
+.loginFrameClass {
+    left: 50%;
+    margin-left: -250px;
+    position: absolute;
+    top: 180px;
+    width: 500px;
+}
+.loginForm {
+    background-color: #D5D7DE;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+    line-height: 30px;
+    padding: 30px 60px;
+    width: 380px;
+}
+.loginText {
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+    color: #3E3E3E;
+    font-size: 20px;
+    height: 26px;
+    padding: 3px;
+    width: 374px;
+}
+.loginButton {
+    background-image: url("../images/login_button.jpg");
+    border: medium none;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    height: 35px;
+    margin-left: 133px;
+    margin-top: 20px;
+    width: 114px;
+}
+.loginMessageClass {
+    color: #333333;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    left: 50%;
+    margin-left: -330px;
+    position: absolute;
+    top: 550px;
+    width: 660px;
+}
+

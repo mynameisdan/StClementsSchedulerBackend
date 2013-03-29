@@ -1,0 +1,116 @@
+<project name="juliet-deploy" basedir="." default="make-deploy">
+
+    <property file="local.properties" />
+    <fail unless="local.props.present">
+        A local.properties file must be present, see local.properties.example.
+    </fail>
+
+    <!-- This is where our deployable copy will be built in make-deploy. -->
+    <property name="build.dir" value="deploy" />
+
+    <property name="db.schemadef"   value="${dest.dir}/db/pta_schema.sql" />
+    <property name="db.testdata"    value="${dest.dir}/db/demo-full.sql" />
+    <property name="db.jar"         value="${dest.dir}/db/bin/h2-1.3.159.jar" />
+    <!-- <property name="db.url"         value="jdbc:h2:tcp://localhost:${db.tcp.port}/${db.name}" /> -->
+    <property name="db.url"         value="jdbc:h2:${dest.dir}/db/${db.name}" />
+
+    <property name="sched.jar"      value="${sched.dir}/bin/jar/juliet.jar" />
+    <property name="sched.jar.dest" value="${build.dir}/java" />
+
+    <target name="clean">
+        <delete dir="${build.dir}" quiet="true" />
+    </target>
+
+    <target name="make-deploy" depends="clean">
+
+        <mkdir dir="${build.dir}" />
+        
+        <!-- Get web stuff -->
+        <copy todir="${build.dir}">
+            <fileset dir="${web.dir}">
+                <exclude name="db/start_*.sh" />
+            </fileset>
+        </copy>
+
+        <!-- Set local values for deployment -->
+        <exec executable="sed">
+            <arg line="-i 
+                -e s/##DB_PORT##/${db.pg.port}/
+                -e s/##DB_TCP_PORT##/${db.tcp.port}/
+                -e s/##DB_SERV##/${db.serv}/
+                -e s/##DB_USER##/${db.user}/
+                -e s/##DB_PASS##/${db.pass}/
+                -e s/##DB_NAME##/${db.name}/
+                ${build.dir}/conf.ini" />
+        </exec>
+
+        <!-- Can we skip rebuilding the scheduler? -->        
+        <condition property="do.build.sched">
+            <not>
+                <and>
+                    <isset property="skip.sched.build" />
+                    <available file="${sched.jar}" />
+                </and>
+            </not>
+        </condition>
+
+        <!-- Get scheduler jar -->
+        <antcall target="build-sched" />
+        <copy file="${sched.jar}" todir="${sched.jar.dest}" />
+    </target>
+
+    <target name="build-sched" if="do.build.sched">
+        <ant dir="${sched.dir}" inheritAll="false" />
+    </target>
+
+    <target name="undeploy" depends="stop-db">
+        <delete dir="${dest.dir}" quiet="true" />
+    </target>
+
+    <target name="do-deploy" depends="make-deploy,undeploy">
+        <mkdir dir="${dest.dir}" />
+        <copy todir="${dest.dir}">
+            <fileset dir="${build.dir}" />
+        </copy>
+
+        <!-- make readable for web-server -->
+        <exec executable="./fix-perm.sh">
+            <arg line="${dest.dir}" />
+        </exec>
+        <antcall target="start-db" />
+        <antcall target="populate-db" />
+    </target>
+
+    <target name="populate-db">
+        <!-- Schema  -->
+        <java classpath="${db.jar}" classname="org.h2.tools.Shell"
+            input="${db.schemadef}" output="/dev/null">
+            <arg line="-url ${db.url} -user ${db.user} -password ${db.pass}" />
+        </java>
+        <!-- Testing data -->
+        <java classpath="${db.jar}" classname="org.h2.tools.Shell"
+            input="${db.testdata}" output="testdata.out"> 
+            <arg line="-url ${db.url} -user ${db.user} -password ${db.pass}" />
+        </java>
+    </target>
+
+    <target name="start-db">
+        <java fork="true" spawn="true" classpath="${db.jar}"
+            classname="org.h2.tools.Server" >
+            <arg line="-tcp -tcpPort ${db.tcp.port} -tcpAllowOthers -pg -pgDaemon -pgAllowOthers -pgPort ${db.pg.port} -trace -baseDir ${dest.dir}/db" />
+        </java>
+    </target>
+
+    <target name="db-shell">
+        <java classpath="${db.jar}" classname="org.h2.tools.Shell">
+            <arg line="-url ${db.url} -user ${db.user} -password ${db.pass}" />
+        </java>
+    </target>
+
+    <target name="stop-db" >
+        <exec executable="./kill-db.sh" />
+    </target>
+
+    <target name="restart-db" depends="stop-db,start-db" />
+
+</project>
