@@ -18,10 +18,10 @@ Instead of a first-come-first-serve basis, the client requested for a randomized
 input from parents and create a schedule that would maximize the number of meetings each parents would 
 have on average (not enough space to accommodate for the amount of parents and their requests) 
 Task carried out by team of four in agile software development setting 
-Designed with MVC pattern 
-Algorithm was based on priority system tied to both parent and teacher entities  
-----
+Designed with MVC pattern
+Algorithm was based on priority system tied to both parent and teacher entities
 
+----
 Parents, and teachers are represented by an instance of a Parent and Teacher object respectively,
 with any data associated with the parent/teacher stored.
 
